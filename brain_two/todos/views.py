@@ -18,9 +18,11 @@ def todo_list_detail(request, id):
     }
     return render(request, "todos/todo_list_detail.html", context)
 
-def create_todo_list(request):
+def todo_list_create(request):
     if request.method == "POST":
-        form = TodoListForm(request.POST)
-        if form.is_valid():
-            todo_list = form.save()
-            return redirect("todo_list_detail", id=todo_list.id)
+        name = request.POST.get('name')
+        todo_list = TodoList(name=name)
+        todo_list.save()
+        return redirect("todo_list_detail", id=todo_list.id)
+    else:
+        return render(request, "todos/todo_list_create.html")
